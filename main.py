@@ -35,8 +35,9 @@ def main():
         # Fill screen with a solid "black" color
         screen.fill("black")
 
-        # Re-render the player each frame
+        # Re-render and update the player each frame
         player.draw(screen)
+        player.update(dt)
 
         # Refresh screen
         pygame.display.flip()
