@@ -1,8 +1,11 @@
+import asteroid
+import asteroidfield
 import pygame #type: ignore
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from logger import log_state
 from player import Player
 from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main():
     # Initialize pygame
@@ -22,11 +25,17 @@ def main():
     # Add the Player class to the `updatable` and `drawable` groups
     Player.containers = (updatable, drawable)
 
-    # Add the Asteroid class to the 'asteroids' group
+    # Add the Asteroid class to the 'asteroids' group (& the drawable and undatable)
     Asteroid.containers = (asteroids, updatable, drawable)
+
+    # Add the AsteroidField class to only the "updatable" group
+    AsteroidField.containers = (updatable)
 
     # Initialize the player in the center of the screen
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    # Initialize the astroid_field object
+    asteroid_field = AsteroidField()
 
     # Define the delta-time for the game
     dt = 0
