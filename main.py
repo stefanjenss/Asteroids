@@ -1,27 +1,30 @@
-from player import Player
 import pygame #type: ignore
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from logger import log_state
+from player import Player
 
 def main():
-    # Initial tests
-    print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
-
     # Initialize pygame
     pygame.init()
     
-    # Create a clock object and dt variable to contain the delta-time
-    clock = pygame.time.Clock()
-    dt = 0
-
     # New instance of the GUI window
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+    # Create a clock object and dt variable to contain the delta-time
+    clock = pygame.time.Clock()
+
+    # Groups containers to hold and manage muliple game objects
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    # Add the Player class to the `updatable` and `drawable` groups
+    Player.containers = (updatable, drawable)
+
     # Initialize the player in the center of the screen
-    player = Player(x = SCREEN_WIDTH / 2,
-                    y = SCREEN_HEIGHT / 2)
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    # Define the delta-time for the game
+    dt = 0
 
     # Game loop
     while True:
@@ -32,12 +35,15 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
+        # Update the updatables
+        updatable.update(dt)
+
         # Fill screen with a solid "black" color
         screen.fill("black")
 
-        # Re-render and update the player each frame
-        player.draw(screen)
-        player.update(dt)
+        # Re-render the drawable objects each frame
+        for obj in drawable:
+            obj.draw(screen)
 
         # Refresh screen
         pygame.display.flip()
