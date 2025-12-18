@@ -2,6 +2,7 @@ import pygame #type: ignore
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from logger import log_state
 from player import Player
+from asteroid import Asteroid
 
 def main():
     # Initialize pygame
@@ -16,9 +17,13 @@ def main():
     # Groups containers to hold and manage muliple game objects
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
 
     # Add the Player class to the `updatable` and `drawable` groups
     Player.containers = (updatable, drawable)
+
+    # Add the Asteroid class to the 'asteroids' group
+    Asteroid.containers = (asteroids, updatable, drawable)
 
     # Initialize the player in the center of the screen
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
