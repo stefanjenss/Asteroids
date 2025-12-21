@@ -6,15 +6,14 @@ from logger import log_state, log_event
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 import sys
 
 def main():
     # Initialize pygame
     pygame.init()
-    
     # New instance of the GUI window
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
     # Create a clock object and dt variable to contain the delta-time
     clock = pygame.time.Clock()
 
@@ -22,15 +21,16 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
     # Add the Player class to the `updatable` and `drawable` groups
     Player.containers = (updatable, drawable)
-
-    # Add the Asteroid class to the 'asteroids' group (& the drawable and undatable)
+    # Add the Asteroid class to the 'asteroids' group (& the drawable and updatable)
     Asteroid.containers = (asteroids, updatable, drawable)
-
     # Add the AsteroidField class to only the "updatable" group
     AsteroidField.containers = (updatable)
+    # Add the Shot class to the 'shots' group (& the drawable and updatable)
+    Shot.containers = (updatable, drawable, shots)
 
     # Initialize the player in the center of the screen
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
